@@ -6,8 +6,11 @@ import java.util.HashMap;
  */
 public class LRUCache<T, U> implements Cache<T, U> {
 
+	DataProvider<T, U> dataProvider;
 	HashMap<T, U> map;
+	LinkedList list;
 	int numOfMisses;
+	final int maxMapSize = 10;
 
 	/**
 	 * @param provider the data provider to consult for a cache miss
@@ -19,7 +22,9 @@ public class LRUCache<T, U> implements Cache<T, U> {
 		}
 
 		// init
+		dataProvider = provider;
 		map = new HashMap<T, U>();
+		list = new LinkedList();
 		numOfMisses = 0;
 	}
 
@@ -31,14 +36,13 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	public U get (T key) {
 		if(!isInCache(key)) {
 			// call data provider
-			U value = null; // TODO:
+			U value = dataProvider.get(key);
 			// store key
-			map.put(key, value);
+			addToHashMap(key, value);
 
 			numOfMisses++;
 		}
 		return map.get(key);
-//		return null;  // TODO: implement me
 	}
 
 	/**
@@ -47,7 +51,6 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	 */
 	public int getNumMisses () {
 		return numOfMisses;
-//		return 0;  // TODO: implement me
 	}
 
 	/**
@@ -57,6 +60,17 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	 */
 	public boolean isInCache (T key) {
 		return map.containsKey(key);
-//		return false;  // TODO: implement me
+	}
+
+	public void addToHashMap(T key, U value) {
+		if (map.size() >= maxMapSize) {
+			// remove from list
+			list.removeLast();
+			// evict
+			map.remove(key, value);
+		}
+
+		list.addFirst(new Node(key));
+		map.put(key, value);
 	}
 }

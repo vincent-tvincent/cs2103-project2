@@ -43,7 +43,7 @@ public class LRUCache<T, U> implements Cache<T, U> {
 			numOfMisses++;
 		}
 
-		return list.getValue(map.get(key));
+		return (U) list.getValue(map.get(key));
 	}
 
 	/**
@@ -69,6 +69,6 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	 * @param data the value associated with the key
 	 */
 	public void addToHashMap(T key, U data) {
-		map.put(key, list.addFirst(data));
+		map.put(key, (U) list.addFirst(data));
 	}
 }

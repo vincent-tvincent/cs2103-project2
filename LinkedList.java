@@ -1,4 +1,4 @@
-public class linkedList<T> {
+public class LinkedList<T> {
     private class node<T>{
 
         public node<T> previous, next;
@@ -18,7 +18,7 @@ public class linkedList<T> {
     }
     private node<T> head, tail;
 
-    public linkedList (){
+    public LinkedList (){
 
     }
 

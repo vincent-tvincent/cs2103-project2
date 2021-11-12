@@ -64,10 +64,12 @@ public class LRUCache<T, U> implements Cache<T, U> {
 
 	public void addToHashMap(T key, U value) {
 		if (map.size() >= maxMapSize) {
+			// get last
+			T lastKey = (T) list.getLast().key;
+			// evict
+			map.remove(lastKey, map.get(lastKey));
 			// remove from list
 			list.removeLast();
-			// evict
-			map.remove(key, value);
 		}
 
 		list.addFirst(new Node(key));

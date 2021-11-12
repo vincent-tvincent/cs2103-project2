@@ -7,6 +7,14 @@ public class LinkedList {
         head = n;
     }
 
+    public Node getLast() {
+        Node n = head;
+        while(n.next != null) {
+            n = n.next;
+        }
+        return  n;
+    }
+
     public void removeLast() {
         Node n = head;
         while(n.next != null) {

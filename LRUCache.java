@@ -5,13 +5,13 @@ import java.util.Hashtable;
  * An implementation of <tt>Cache</tt> that uses a least-recently-used (LRU)
  * eviction policy.
  */
-public class
-LRUCache<T, U> implements Cache<T, U> {
+public class LRUCache<T, U> implements Cache<T, U> {
 
 	DataProvider provider;
 	Hashtable <T,U> cache;
-	Hashtable<T, Integer> callingTimes;
+	linkedList<U> callingTimes;
 	int missCounter = 0;
+	int capacity;
 
 	/**
 	 * @param provider the data
@@ -24,9 +24,10 @@ LRUCache<T, U> implements Cache<T, U> {
 		if (capacity < 1) {
 			throw new IllegalArgumentException("capacity must be at least 1");
 		}else{
+			this.capacity = capacity;
 			this.provider = provider;
 			cache = new Hashtable<>(capacity);
-			callingTimes = new Hashtable<>(capacity);
+			callingTimes = new linkedList<>();
 		}
 
 	}
@@ -45,7 +46,7 @@ LRUCache<T, U> implements Cache<T, U> {
 			cacheAdd(key);
 
 		}else{
-			callingTimes.replace(key,callingTimes.get(key)+1);
+
 		}
 		return target;  // TODO: implement me
 	}
@@ -55,6 +56,15 @@ LRUCache<T, U> implements Cache<T, U> {
 	 * @param key the key
 	 */
 	private void cacheAdd(T key){
+
+	}
+
+	/**
+	 * remove the element in cache that was lest used
+	 * @param calls the hashtable stored the calling times of data in cache
+	 */
+	private void removeLestUsage(Hashtable<T,Integer> calls){
+		Integer[] list = calls.values().toArray(new Integer[capacity]);
 
 	}
 

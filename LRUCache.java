@@ -10,7 +10,6 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	HashMap<T, U> map;
 	LinkedList list;
 	int numOfMisses;
-	final int maxMapSize = 10;
 
 	/**
 	 * @param provider the data provider to consult for a cache miss

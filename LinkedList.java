@@ -23,6 +23,9 @@ public class LinkedList<T> {
     }
 
     public node<T> addFirst(T data){return null;}
-    public T getValue(T node){return null;}
+    public T getValue(T node){
+        node n = (node<T>) node;
+        return (T) n.data;
+    }
 }
 

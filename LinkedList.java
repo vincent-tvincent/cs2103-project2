@@ -25,6 +25,35 @@ public class LinkedList<T> {
     public node<T> addFirst(T data){return null;}
     public T getValue(T node){
         node n = (node<T>) node;
+
+        // if the called node is a head we dont need to do anything
+        if(head != n) {
+            node prev = n.previous;
+            node next = n.next;
+
+            // update tail
+            if(tail == n) {
+                if(next != null) {
+                    tail = next;
+                } else {
+                    // if we are not the head the prev should never be null
+                    tail = prev;
+                }
+            }
+
+            // connect adjacent nodes
+            prev.next = next;
+            if(next != null) {
+                next.previous = prev;
+            }
+
+            // make node head
+            head.previous = n;
+            n.previous = null;
+            n.next = head;
+            head = n.next;
+        }
+
         return (T) n.data;
     }
 }

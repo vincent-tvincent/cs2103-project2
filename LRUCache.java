@@ -69,8 +69,9 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	 */
 	public void addToHashMap(T key, U data) {
 		if(list.filled){
+			// TODO: use list.removeLeast() instead
 			map.remove(list.getValue(list.tail));
 		}
-		map.put(key, (U) list.addFirst(data));
+		map.put(key, (U) list.addLast(data));
 	}
 }

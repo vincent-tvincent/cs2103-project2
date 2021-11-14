@@ -29,14 +29,15 @@ public class LinkedList<T> {
         filled = false;
     }
 
-    public node<T> addFirst(T data){
+    public node<T> addLast(T data){
         num++;
-        if(head.data == null){
+        if(head == null){
             head = new node<T> (data, null, null);
             tail = head;
         }else{
             tail.next = new node<T>(data,tail, null);
             tail = tail.next;
+            // TODO: we can set filled here however removing elements need to be done in another method
             if(num > capacity){
                 head.next.previous = null;
                 num--;
@@ -45,6 +46,8 @@ public class LinkedList<T> {
         }
         return tail;
     }
+
+    // TODO: create removeLeast() that returns the least called item in the list and updates the head
 
     public T getValue(T node){
         node n = (node<T>) node;

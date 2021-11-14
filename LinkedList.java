@@ -18,11 +18,12 @@ public class LinkedList<T> {
     }
     private node<T> head, tail;
     private int capacity, num;
-    public boolean expired = false;
+    public boolean filled;
     public LinkedList (int capacity) {
         this.capacity = capacity;
         this.num = 0;
         head = new node<T>(null);
+        filled = false; // if this turn true, the least called item in hash map should be removed.
     }
 
     public void add(T key){
@@ -35,10 +36,9 @@ public class LinkedList<T> {
             if(num > capacity){
                 head.next.previous = null;
                 num--;
-                expired = true;
+                filled = true; // let hash map remove one element as well
             }
         }
-
     }
 
     public T leastUsedKey(){return head.key;}

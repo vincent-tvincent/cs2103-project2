@@ -10,7 +10,6 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	private HashMap<T, U> map;
 	private LinkedList keyList;
 	private int numOfMisses;
-	private int capacity;
 	/**
 	 * @param provider the data provider to consult for a cache miss
 	 * @param capacity the exact number of (key,value) pairs to store in the cache
@@ -23,7 +22,6 @@ public class LRUCache<T, U> implements Cache<T, U> {
 		// init
 		dataProvider = provider;
 		map = new HashMap<T, U>();
-		this.capacity = capacity;
 		keyList = new LinkedList(capacity);
 		numOfMisses = 0;
 
@@ -41,9 +39,9 @@ public class LRUCache<T, U> implements Cache<T, U> {
 			// store key
 			addToHashMap(key, data);
 			numOfMisses++;
-			if(keyList.expired){
+			if(keyList.filled){ // if the Cache filled
 				map.remove(keyList.leastUsedKey());
-				keyList.expired = false;
+				keyList.filled = false; // once the remove operation been done, filled should be set back to false
 			}
 		}
 
@@ -65,7 +63,7 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	 */
 	public boolean notInCache(T key) {
 		return !map.containsKey(key);
-	}
+	} // the not equal operator been moved from get to there, no substantiality change.
 
 	/**
 	 * adds a key - node pair to the hashmap, and adds a node with data to the list
@@ -74,6 +72,6 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	 */
 	public void addToHashMap(T key, U data) {
 		map.put(key,data);
-		keyList.add(key);
+		keyList.add(key); //addFirst changed to add
 	}
 }

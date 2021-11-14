@@ -68,6 +68,9 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	 * @param data the value associated with the key
 	 */
 	public void addToHashMap(T key, U data) {
+		if(list.filled){
+			map.remove(list.getValue(list.tail));
+		}
 		map.put(key, (U) list.addFirst(data));
 	}
 }

@@ -17,14 +17,16 @@ public class LinkedList<T> {
         }
     }
 
-    private node<T> head, tail; // head is the LEFT most (last recent called) one and tail is the RIGHT most (most recent called) one.
+    public node<T> head, tail; // head is the LEFT most (last recent called) one and tail is the RIGHT most (most recent called) one.
     private int capacity;
     private int num;
+    public boolean filled;
     public LinkedList (int capacity){
         head = new node<T>(null);
         tail = head;
         this.capacity = capacity;
         num = 0;
+        filled = false;
     }
 
     public node<T> addFirst(T data){
@@ -38,11 +40,11 @@ public class LinkedList<T> {
             if(num > capacity){
                 head.next.previous = null;
                 num--;
+                filled = true;
             }
         }
         return tail;
     }
-
 
     public T getValue(T node){
         node n = (node<T>) node;

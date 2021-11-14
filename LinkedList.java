@@ -2,30 +2,45 @@ public class LinkedList<T> {
     private class node<T>{
 
         public node<T> previous, next;
-        public T data;
+        public T key;
 
-        public node (T data, node<T> previous, node<T> next){
-            this.data = data;
+        public node (T key, node<T> previous, node<T> next){
+            this.key = key;
             this.previous = previous;
             this.next = next;
         }
 
         public node (T data){
-           this.data = data;
+           this.key = data;
             previous = null;
             next = null;
         }
     }
     private node<T> head, tail;
+    private int capacity, num;
+    public boolean expired = false;
+    public LinkedList (int capacity) {
+        this.capacity = capacity;
+        this.num = 0;
+        head = new node<T>(null);
+    }
 
-    public LinkedList (){
+    public void add(T key){
+        num ++;
+        if(head.key == null){
+            head = new node<T>(key);
+            tail = head;
+        }else{
+            tail.next = new node<T>(key);
+            if(num > capacity){
+                head.next.previous = null;
+                num--;
+                expired = true;
+            }
+        }
 
     }
 
-    public node<T> addFirst(T data){return null;}
-    public T getValue(T node){
-        node n = (node<T>) node;
-        return (T) n.data;
-    }
+    public T leastUsedKey(){return head.key;}
 }
 

@@ -6,11 +6,11 @@ import java.util.HashMap;
  */
 public class LRUCache<T, U> implements Cache<T, U> {
 
-	DataProvider<T, U> dataProvider;
-	HashMap<T, U> map;
-	LinkedList list;
-	int numOfMisses;
-
+	private DataProvider<T, U> dataProvider;
+	private HashMap<T, U> map;
+	private LinkedList keyList;
+	private int numOfMisses;
+	private int capacity;
 	/**
 	 * @param provider the data provider to consult for a cache miss
 	 * @param capacity the exact number of (key,value) pairs to store in the cache
@@ -23,8 +23,10 @@ public class LRUCache<T, U> implements Cache<T, U> {
 		// init
 		dataProvider = provider;
 		map = new HashMap<T, U>();
-		list = new LinkedList();
+		this.capacity = capacity;
+		keyList = new LinkedList(capacity);
 		numOfMisses = 0;
+
 	}
 
 	/**
@@ -33,16 +35,19 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	 * @return the value associated with the key
 	 */
 	public U get (T key) {
-		if(!isInCache(key)) {
+		if(notInCache(key)) {
 			// call data provider
 			U data = dataProvider.get(key);
 			// store key
 			addToHashMap(key, data);
-
 			numOfMisses++;
+			if(keyList.expired){
+				map.remove(keyList.leastUsedKey());
+				keyList.expired = false;
+			}
 		}
 
-		return (U) list.getValue(map.get(key));
+		return map.get(key);
 	}
 
 	/**
@@ -58,8 +63,8 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	 * @param key of the object
 	 * @return whether the object is contained in the cache.
 	 */
-	public boolean isInCache (T key) {
-		return map.containsKey(key);
+	public boolean notInCache(T key) {
+		return !map.containsKey(key);
 	}
 
 	/**
@@ -68,6 +73,7 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	 * @param data the value associated with the key
 	 */
 	public void addToHashMap(T key, U data) {
-		map.put(key, (U) list.addFirst(data));
+		map.put(key,data);
+		keyList.add(key);
 	}
 }

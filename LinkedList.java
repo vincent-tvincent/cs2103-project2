@@ -39,15 +39,25 @@ public class LinkedList<T> {
             tail = tail.next;
             // TODO: we can set filled here however removing elements need to be done in another method
             if(num > capacity){
-                head.next.previous = null;
-                num--;
-                filled = true;
+                removeLeast();
             }
         }
         return tail;
     }
 
     // TODO: create removeLeast() that returns the least called item in the list and updates the head
+
+    /**
+     * Remove the least called element in the linked list, and return the data of the node been removed
+     * @return the data of the node been removed
+     */
+    public T removeLeast(){
+        node temp = head;
+        head.next.previous = null;
+        num--;
+        filled = true;
+        return (T) temp.data;
+    }
 
     public T getValue(T node){
         node n = (node<T>) node;

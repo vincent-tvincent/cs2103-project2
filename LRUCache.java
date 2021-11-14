@@ -23,7 +23,7 @@ public class LRUCache<T, U> implements Cache<T, U> {
 		// init
 		dataProvider = provider;
 		map = new HashMap<T, U>();
-		list = new LinkedList();
+		list = new LinkedList(capacity);
 		numOfMisses = 0;
 	}
 

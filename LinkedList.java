@@ -53,8 +53,6 @@ public class LinkedList<T, U> {
         return tail;
     }
 
-    // TODO: create removeLeast() that returns the least called item in the list and updates the head
-
     /**
      * Remove the least called element in the linked list, and return the data of the node been removed
      * @return the data of the node been removed

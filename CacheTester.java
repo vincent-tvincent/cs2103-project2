@@ -1,5 +1,5 @@
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Code to test an <tt>LRUCache</tt> implementation.
@@ -7,11 +7,71 @@ import org.junit.jupiter.api.*;
  * try to access any methods or variables that are specific to your own LRUCache!
  */
 public class CacheTester {
-	@Test
-	public void leastRecentlyUsedIsCorrect () {
-		// In this (arbitrary) example, the DataProvider associates integer keys with String values.
-		final DataProvider<Integer,String> provider = null; // Need to instantiate an actual DataProvider
-		final Cache<Integer,String> cache = new LRUCache<Integer,String>(provider, 5);
+	DataStringProvider provider;
+	Cache<Integer, String> cache;
 
+	@Test
+	public void getItemNotInCache() {
+		InitCache(5);
+		String cacheString = cache.get(1);
+		assertTrue(cacheString == "ONE" && cache.getNumMisses() == 1);
+	}
+
+	@Test
+	public void getItemInCache() {
+		InitCache(5);
+
+		cache.get(1);
+		cache.get(1);
+		assertEquals(1, cache.getNumMisses());
+	}
+
+	@Test
+	public void testLeastRecentRemoval() {
+		InitCache(5);
+
+		cache.get(1);
+		cache.get(2);
+		cache.get(3);
+		cache.get(4);
+		cache.get(5);
+		cache.get(6);
+
+		assertFalse(cache.isInCache(1));
+	}
+
+	@Test
+	public void testLeastRecentRemovalWithMultipleCalls() {
+		InitCache(5);
+
+		cache.get(1);
+		cache.get(2);
+		cache.get(1);
+		cache.get(3);
+		cache.get(1);
+		cache.get(4);
+		cache.get(2);
+		cache.get(5);
+		cache.get(6);
+
+		assertFalse(cache.isInCache(3));
+	}
+
+	@Test
+	public void InvalidKey() {
+		InitCache(5);
+		assertNull(cache.get(999));
+	}
+
+	@Test
+	public void InitWithInvalidCapacity() {
+		InitCache(0);
+		assertNull(cache);
+		// TODO: double check this
+	}
+
+	private void InitCache(int capacity) {
+		provider = new DataStringProvider();
+		cache = new LRUCache<Integer,String>(provider, 5);
 	}
 }

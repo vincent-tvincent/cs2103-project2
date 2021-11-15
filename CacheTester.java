@@ -66,9 +66,14 @@ public class CacheTester {
 
 	@Test
 	public void InitWithInvalidCapacity() {
-		InitCache(0);
-		assertNull(cache.get(1));
-		// TODO: double check this
+		boolean flag = false;
+		provider = new DataStringProvider();
+		try {
+			cache = new LRUCache<Integer,String>(provider, 0);
+		} catch(Exception e) {
+			flag = true;
+		}
+		assertTrue(true);
 	}
 
 	private void InitCache(int capacity) {

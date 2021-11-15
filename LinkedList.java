@@ -6,6 +6,7 @@ public class LinkedList<T, U> {
         public D data;
 
         public node (K key, D data, node<K, D> previous, node<K, D> next){
+            this.key = key;
             this.data = data;
             this.previous = previous;
             this.next = next;
@@ -22,28 +23,32 @@ public class LinkedList<T, U> {
     public node<T, U> head, tail; // head is the LEFT most (last recent called) one and tail is the RIGHT most (most recent called) one.
     private int capacity;
     private int num;
-    public boolean filled;
+    public boolean overflow;
     public LinkedList (int capacity) {
         head = null;
         tail = null;
         this.capacity = capacity;
         num = 0;
-        filled = false;
+        overflow = false;
     }
 
     public node<T, U> addLast(T key, U data){
+        System.out.println("new value added: " + "key: " + key+ " " + "data: " + data);
         num++;
+        System.out.println("number of items in Cache: " + num);
         if(head == null){
+            System.out.println("this list is empty");
             head = new node<T, U> (key, data);
             tail = head;
+            System.out.println("recent head: " + head.data);
+            System.out.println("recent tail: " + tail.data);
         }else{
             tail.next = new node<T, U>(key, data, tail, null);
             tail = tail.next;
-
-            if(num >= capacity) {
-                filled = true;
-            } else {
-                filled = false;
+            System.out.println("recent head: " + head.data);
+            System.out.println("recent tail: " + tail.data);
+            if(num > capacity) {
+                overflow = true;
             }
         }
         return tail;
@@ -56,15 +61,17 @@ public class LinkedList<T, U> {
      * @return the data of the node been removed
      */
     public T removeLeast(){
-        node temp = head;
+        T key = head.key;
+        System.out.println("head key = " + key);
+        System.out.println("item removed: " + head.data);
         head.next.previous = null;
+        head = head.next;
         num--;
-        if(num >= capacity) {
-            filled = true;
-        } else {
-            filled = false;
+        if(num <= capacity){
+            overflow = false;
         }
-        return (T) temp.key;
+        return key;
+
     }
 
     // given a node this will return the data it carries and move the node to the tail

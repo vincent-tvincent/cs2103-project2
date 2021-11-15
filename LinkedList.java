@@ -1,45 +1,49 @@
-public class LinkedList<U> {
-    private class node<T>{
+public class LinkedList<T, U> {
+    private class node<K, D>{
 
-        public node<T> previous, next;
-        public T data;
+        public node<K, D> previous, next;
+        public K key;
+        public D data;
 
-        public node (T data, node<T> previous, node<T> next){
+        public node (K key, D data, node<K, D> previous, node<K, D> next){
             this.data = data;
             this.previous = previous;
             this.next = next;
         }
 
-        public node (T data){
-           this.data = data;
+        public node (K key, D data){
+           this.key = key;
+            this.data = data;
             previous = null;
             next = null;
         }
     }
 
-    public node<U> head, tail; // head is the LEFT most (last recent called) one and tail is the RIGHT most (most recent called) one.
+    public node<T, U> head, tail; // head is the LEFT most (last recent called) one and tail is the RIGHT most (most recent called) one.
     private int capacity;
     private int num;
     public boolean filled;
-    public LinkedList (int capacity){
-        head = new node<U>(null);
-        tail = head;
+    public LinkedList (int capacity) {
+        head = null;
+        tail = null;
         this.capacity = capacity;
         num = 0;
         filled = false;
     }
 
-    public node<U> addLast(U data){
+    public node<T, U> addLast(T key, U data){
         num++;
         if(head == null){
-            head = new node<U> (data, null, null);
+            head = new node<T, U> (key, data);
             tail = head;
         }else{
-            tail.next = new node<U>(data,tail, null);
+            tail.next = new node<T, U>(key, data, tail, null);
             tail = tail.next;
-            // TODO: we can set filled here however removing elements need to be done in another method
-            if(num > capacity){
-                removeLeast();
+
+            if(num >= capacity) {
+                filled = true;
+            } else {
+                filled = false;
             }
         }
         return tail;
@@ -51,17 +55,21 @@ public class LinkedList<U> {
      * Remove the least called element in the linked list, and return the data of the node been removed
      * @return the data of the node been removed
      */
-    public U removeLeast(){
+    public T removeLeast(){
         node temp = head;
         head.next.previous = null;
         num--;
-        filled = true;
-        return (U) temp.data;
+        if(num >= capacity) {
+            filled = true;
+        } else {
+            filled = false;
+        }
+        return (T) temp.key;
     }
 
     // given a node this will return the data it carries and move the node to the tail
     public U getValue(U node){
-        node n = (node<U>) node;
+        node n = (node<T, U>) node;
 
         // if the called node is the tail we dont need to do anything
         if(tail != n) {
@@ -70,19 +78,15 @@ public class LinkedList<U> {
 
             // if node is the head and the next is not null, make it the head
             if(head == n) {
-                if(next != null) {
-                    head = next;
-                }
+                // if we are not the tail next will never be null
+                head = next;
             }
 
             // connect adjacent nodes
             if(prev != null) {
                 prev.next = next;
             }
-
-            if(next != null) {
-                next.previous = prev;
-            }
+            next.previous = prev;
 
             // make node tail
             tail.next = n;

@@ -46,11 +46,12 @@ public class CacheTester {
 
 		cache.get(1);
 		cache.get(2);
-		cache.get(1);
 		cache.get(3);
+
 		cache.get(1);
-		cache.get(4);
 		cache.get(2);
+
+		cache.get(4);
 		cache.get(5);
 		cache.get(6);
 
@@ -66,7 +67,7 @@ public class CacheTester {
 	@Test
 	public void InitWithInvalidCapacity() {
 		InitCache(0);
-		assertNull(cache);
+		assertNull(cache.get(1));
 		// TODO: double check this
 	}
 

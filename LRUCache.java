@@ -18,13 +18,13 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	public LRUCache (DataProvider<T, U> provider, int capacity) {
 		if (capacity < 1) {
 			throw new IllegalArgumentException("capacity must be at least 1");
+		} else {
+			// init
+			dataProvider = provider;
+			map = new HashMap<T, U>();
+			list = new LinkedList(capacity);
+			numOfMisses = 0;
 		}
-
-		// init
-		dataProvider = provider;
-		map = new HashMap<T, U>();
-		list = new LinkedList(capacity);
-		numOfMisses = 0;
 	}
 
 	/**
@@ -68,11 +68,10 @@ public class LRUCache<T, U> implements Cache<T, U> {
 	 * @param data the value associated with the key
 	 */
 	public void addToHashMap(T key, U data) {
+		map.put(key, (U) list.addLast(key, data));
+
 		if(list.filled){
-			// TODO: use list.removeLeast() instdead
-			map.remove((U) list.removeLeast());
-			list.filled = false;
+			map.remove((T) list.removeLeast());
 		}
-		map.put(key, (U) list.addLast(data));
 	}
 }

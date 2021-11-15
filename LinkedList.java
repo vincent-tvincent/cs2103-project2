@@ -1,48 +1,48 @@
-public class LinkedList<U> {
-    private class node<T>{
+public class LinkedList<T> {
+    private class node{
 
-        public node<T> previous, next;
-        public T data;
+        public node previous, next;
+        public T key;
 
-        public node (T data, node<T> previous, node<T> next){
-            this.data = data;
+        public node (T data, node previous, node next){
+            this.key = data;
             this.previous = previous;
             this.next = next;
         }
 
         public node (T data){
-           this.data = data;
+           this.key = data;
             previous = null;
             next = null;
         }
     }
 
-    public node<U> head, tail; // head is the LEFT most (last recent called) one and tail is the RIGHT most (most recent called) one.
+    public node head, tail; // head is the LEFT most (last recent called) one and tail is the RIGHT most (most recent called) one.
     private int capacity;
     private int num;
     public boolean filled;
     public LinkedList (int capacity){
-        head = new node<U>(null);
+        head = new node(null);
         tail = head;
         this.capacity = capacity;
         num = 0;
         filled = false;
     }
 
-    public node<U> addLast(U data){
+    public T add(T data){
         num++;
         if(head == null){
-            head = new node<U> (data, null, null);
+            head = new node (data, null, null);
             tail = head;
         }else{
-            tail.next = new node<U>(data,tail, null);
+            tail.next = new node(data,tail, null);
             tail = tail.next;
             // TODO: we can set filled here however removing elements need to be done in another method
             if(num > capacity){
                 removeLeast();
             }
         }
-        return tail;
+        return tail.key;
     }
 
     // TODO: create removeLeast() that returns the least called item in the list and updates the head
@@ -51,17 +51,17 @@ public class LinkedList<U> {
      * Remove the least called element in the linked list, and return the data of the node been removed
      * @return the data of the node been removed
      */
-    public U removeLeast(){
+    public T removeLeast(){
         node temp = head;
         head.next.previous = null;
         num--;
         filled = true;
-        return (U) temp.data;
+        return (T) temp.key;
     }
 
     // given a node this will return the data it carries and move the node to the tail
-    public U getValue(U node){
-        node n = (node<U>) node;
+    public T getValue(T node){
+        node n = (node) node;
 
         // if the called node is the tail we dont need to do anything
         if(tail != n) {
@@ -91,7 +91,7 @@ public class LinkedList<U> {
             tail = n;
         }
 
-        return (U) n.data;
+        return (T) n.key;
     }
 }
 

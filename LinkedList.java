@@ -1,4 +1,4 @@
-public class LinkedList<T> {
+public class LinkedList<U> {
     private class node<T>{
 
         public node<T> previous, next;
@@ -17,25 +17,25 @@ public class LinkedList<T> {
         }
     }
 
-    public node<T> head, tail; // head is the LEFT most (last recent called) one and tail is the RIGHT most (most recent called) one.
+    public node<U> head, tail; // head is the LEFT most (last recent called) one and tail is the RIGHT most (most recent called) one.
     private int capacity;
     private int num;
     public boolean filled;
     public LinkedList (int capacity){
-        head = new node<T>(null);
+        head = new node<U>(null);
         tail = head;
         this.capacity = capacity;
         num = 0;
         filled = false;
     }
 
-    public node<T> addLast(T data){
+    public node<U> addLast(U data){
         num++;
         if(head == null){
-            head = new node<T> (data, null, null);
+            head = new node<U> (data, null, null);
             tail = head;
         }else{
-            tail.next = new node<T>(data,tail, null);
+            tail.next = new node<U>(data,tail, null);
             tail = tail.next;
             // TODO: we can set filled here however removing elements need to be done in another method
             if(num > capacity){
@@ -51,17 +51,17 @@ public class LinkedList<T> {
      * Remove the least called element in the linked list, and return the data of the node been removed
      * @return the data of the node been removed
      */
-    public T removeLeast(){
+    public U removeLeast(){
         node temp = head;
         head.next.previous = null;
         num--;
         filled = true;
-        return (T) temp.data;
+        return (U) temp.data;
     }
 
-    public T getValue(T node){
-        node n = (node<T>) node;
-        return (T) n.data;
+    public U getValue(U node){
+        node n = (node<U>) node;
+        return (U) n.data;
     }
 }
 

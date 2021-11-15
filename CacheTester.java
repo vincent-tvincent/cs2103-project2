@@ -12,5 +12,6 @@ public class CacheTester {
 		// In this (arbitrary) example, the DataProvider associates integer keys with String values.
 		final DataProvider<Integer,String> provider = null; // Need to instantiate an actual DataProvider
 		final Cache<Integer,String> cache = new LRUCache<Integer,String>(provider, 5);
+
 	}
 }

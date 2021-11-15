@@ -32,6 +32,12 @@ public class LinkedList<T, U> {
         overflow = false;
     }
 
+    /**
+     * add a new node in this linked list
+     * @param key the key associated with this data
+     * @param data the data
+     * @return the node contain the data and key
+     */
     public node<T, U> addLast(T key, U data){
         num++;
         if(head == null){
@@ -65,7 +71,11 @@ public class LinkedList<T, U> {
 
     }
 
-    // given a node this will return the data it carries and move the node to the tail
+    /**
+     * given a node this will return the data it carries and move the node to the tail
+     * @param node the node associated with the key
+     * @return the data stored in the node
+     */
     public U getValue(U node){
         node n = (node<T, U>) node;
 

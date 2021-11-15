@@ -33,20 +33,13 @@ public class LinkedList<T, U> {
     }
 
     public node<T, U> addLast(T key, U data){
-        System.out.println("new value added: " + "key: " + key+ " " + "data: " + data);
         num++;
-        System.out.println("number of items in Cache: " + num);
         if(head == null){
-            System.out.println("this list is empty");
             head = new node<T, U> (key, data);
             tail = head;
-            System.out.println("recent head: " + head.data);
-            System.out.println("recent tail: " + tail.data);
         }else{
             tail.next = new node<T, U>(key, data, tail, null);
             tail = tail.next;
-            System.out.println("recent head: " + head.data);
-            System.out.println("recent tail: " + tail.data);
             if(num > capacity) {
                 overflow = true;
             }
@@ -62,8 +55,6 @@ public class LinkedList<T, U> {
      */
     public T removeLeast(){
         T key = head.key;
-        System.out.println("head key = " + key);
-        System.out.println("item removed: " + head.data);
         head.next.previous = null;
         head = head.next;
         num--;

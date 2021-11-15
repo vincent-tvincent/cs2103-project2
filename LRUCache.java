@@ -72,9 +72,6 @@ public class LRUCache<T, U> implements Cache<T, U> {
 
 		if(list.overflow){
 			map.remove(list.removeLeast());
-			System.out.println(map.containsKey(3));
-			System.out.println("hash map associate items removed");
-
 		}
 	}
 }
